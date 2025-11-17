@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieSystem.AppHost", "Movi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieSystem.ServiceDefaults", "MovieSystem.ServiceDefaults\MovieSystem.ServiceDefaults.csproj", "{6B305BAD-99BB-4E28-97A1-5F732A5D38F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.APP", "Movie.APP\Movie.APP.csproj", "{D188C604-98EB-48A3-9514-54D7A69C3C40}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{6B305BAD-99BB-4E28-97A1-5F732A5D38F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B305BAD-99BB-4E28-97A1-5F732A5D38F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B305BAD-99BB-4E28-97A1-5F732A5D38F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D188C604-98EB-48A3-9514-54D7A69C3C40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D188C604-98EB-48A3-9514-54D7A69C3C40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D188C604-98EB-48A3-9514-54D7A69C3C40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D188C604-98EB-48A3-9514-54D7A69C3C40}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
