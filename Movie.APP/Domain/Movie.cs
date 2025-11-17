@@ -1,3 +1,5 @@
+using CORE.APP.Domain;
+
 namespace Movie.APP.Domain;
 
 public class Movie : Entity
