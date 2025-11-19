@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieSystem.AppHost", "Movi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieSystem.ServiceDefaults", "MovieSystem.ServiceDefaults\MovieSystem.ServiceDefaults.csproj", "{6B305BAD-99BB-4E28-97A1-5F732A5D38F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.APP", "Movie.APP\Movie.APP.csproj", "{B13E5628-7ACC-4B63-BBF7-5DA98E270A30}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies.APP", "Movies.APP\Movies.APP.csproj", "{B13E5628-7ACC-4B63-BBF7-5DA98E270A30}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CORE", "CORE\CORE.csproj", "{49DB3AF3-7C9F-4A51-BBD4-190066773252}"
 EndProject
