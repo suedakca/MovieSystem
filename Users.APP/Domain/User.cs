@@ -1,10 +1,10 @@
+using CORE.APP.Domain;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using CORE.APP.Domain;
 
-namespace Users.APP.Domain;
-
-public class User : Entity
+namespace Users.APP.Domain
+{
+    public class User : Entity
     {
         [Required, StringLength(30)]
         public string UserName { get; set; } // Reference Type: null can't be assigned since Required is used
@@ -81,3 +81,4 @@ public class User : Entity
         /// </summary>
         public DateTime? RefreshTokenExpiration { get; set; }
     }
+}
