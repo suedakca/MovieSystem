@@ -5,61 +5,21 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Users.APP.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
 
-/// <summary>
-/// Adds default service configurations for the application.
-/// This may include health checks, logging, and other shared services.
-/// </summary>
-builder.AddServiceDefaults();
+//builder.AddServiceDefaults();
 
 
-
-// -----------------------------------------------------------------------------------
-// Add services to the IoC (Inversion of Control) container for Dependency Injections.
-// -----------------------------------------------------------------------------------
-// Registers the application's DbContext (named 'UsersDb') with the dependency injection container.
-// Configures the DbContext to use SQLite as the database provider.
-// The connection string named "UsersDb" is retrieved from the application's configuration settings (appsettings.json).
-// This setup enables the application to connect to the specified SQLite database when interacting with entity sets.
-// Whenever a DbContext injection occurs through the constructor of a class (such as a features class),
-// initialize an object of type UsersDb and use this object in the class for database operations.
 builder.Services.AddDbContext<DbContext, UsersDb>(options => options.UseSqlite(builder.Configuration.GetConnectionString("UsersDb")));
 
-// Way 1:
-// Registers MediatR services with the dependency injection container.
-// MediatR is a popular .NET library that implements the mediator pattern, enabling decoupled communication
-// between components by sending requests (commands, queries, events) to handlers without direct dependencies.
-// The configuration below scans the assembly containing the 'UsersDb' type for any classes that implement
-// MediatR handler interfaces (such as IRequestHandler, INotificationHandler, etc.).
-// This allows automatic discovery and registration of all MediatR handlers in the specified assembly.
-// As a result, you can inject the IMediator interface into controllers and use it to
-// send requests or publish notifications, which will be routed to the appropriate handlers.
-//builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(UsersDb).Assembly));
-// Way 2:
-// Iterates through all assemblies currently loaded in the application's AppDomain.
-// For each assembly, registers all MediatR handlers (such as IRequestHandler, INotificationHandler, etc.)
-// found within that assembly with the dependency injection container.
-// This enables MediatR to automatically discover and wire up handlers from any loaded assembly,
-// allowing for modular handler organization and dynamic handler loading (e.g., from plugins or feature assemblies).
-// Note: Registering handlers from all assemblies can be useful in large or modular applications,
-// but may introduce duplicate registrations or performance overhead if not managed carefully.
 foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
 {
     builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblies(assembly));
 }
 
-// Registers the TokenAuthService as a singleton service for the ITokenAuthService interface.
-// Lifetime: Singleton (one instance is created and shared for the entire application lifetime).
-// Usage: All dependencies requesting ITokenAuthService will receive the same TokenAuthService instance.
-// Rationale: Suitable for stateless services or services that do not depend on per-request data.
-// TokenAuthService is stateless and thread-safe, making it appropriate for singleton registration.
-// Avoid storing per-user or per-request data in singleton services to prevent concurrency issues.
+
 builder.Services.AddSingleton<ITokenAuthService, TokenAuthService>();
 
 /* 
@@ -173,15 +133,9 @@ builder.Services.AddScoped<HttpServiceBase, HttpService>();
 
 
 
-/// <summary>
-/// Adds controller support for handling HTTP API requests.
-/// </summary>
+
 builder.Services.AddControllers();
 
-/// <summary>
-/// Adds support for API endpoint discovery and OpenAPI/Swagger documentation generation.
-/// </summary>
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
 
@@ -258,10 +212,8 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-/// <summary>
-/// Maps default endpoints such as health checks and liveness probes.
-/// </summary>
-app.MapDefaultEndpoints();
+
+// app.MapDefaultEndpoints();
 
 
 
@@ -292,9 +244,6 @@ app.UseSwaggerUI();
 
 
 
-/// <summary>
-/// Enforces HTTPS redirection for all HTTP requests.
-/// </summary>
 app.UseHttpsRedirection();
 
 
@@ -306,17 +255,10 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 
-
-/// <summary>
-/// Adds authorization middleware to the request pipeline.
-/// </summary>
 app.UseAuthorization();
 
-/// <summary>
-/// Maps controller endpoints to handle incoming HTTP requests.
-/// </summary>
-app.MapControllers();
 
+app.MapControllers();
 
 
 // ---------------------------------------------------------------
@@ -325,8 +267,4 @@ app.MapControllers();
 app.UseCors();
 
 
-
-/// <summary>
-/// Runs the application and starts listening for incoming HTTP requests.
-/// </summary>
 app.Run();

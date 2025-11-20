@@ -1,8 +1,8 @@
 using System.Globalization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Users.APP.Domain;
-using Group = System.Text.RegularExpressions.Group;
 
 namespace Users.API.Controllers;
 

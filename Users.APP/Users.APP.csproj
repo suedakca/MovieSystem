@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <PackageReference Include="MediatR" Version="13.1.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Telemetry" Version="8.0.0-rc.2.23510.2" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.22" />
       <PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
     </ItemGroup>

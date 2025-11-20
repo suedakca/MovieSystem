@@ -50,7 +50,8 @@ namespace Users.API.Controllers
                 // Log the exception
                 _logger.LogError("UsersGet Exception: " + exception.Message);
                 // Return 500 Internal Server Error with an error command response with message
-                return StatusCode(StatusCodes.Status500InternalServerError, new CommandResponse(false, "An exception occured during UsersGet."));
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new CommandResponse(false, "An exception occured during UsersGet."));
             }
         }
 
@@ -76,7 +77,8 @@ namespace Users.API.Controllers
                 // Log the exception
                 _logger.LogError("UsersGetById Exception: " + exception.Message);
                 // Return 500 Internal Server Error with an error command response with message
-                return StatusCode(StatusCodes.Status500InternalServerError, new CommandResponse(false, "An exception occured during UsersGetById."));
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new CommandResponse(false, "An exception occured during UsersGetById."));
             }
         }
 
@@ -98,18 +100,22 @@ namespace Users.API.Controllers
                         //return CreatedAtAction(nameof(Get), new { id = response.Id }, response);
                         return Ok(response);
                     }
+
                     // If creation failed, add error command response message to model state
                     ModelState.AddModelError("UsersPost", response.Message);
                 }
+
                 // Return 400 Bad Request with all data annotation validation error messages and the error command response message if added seperated by |
-                return BadRequest(new CommandResponse(false, string.Join("|", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage))));
+                return BadRequest(new CommandResponse(false,
+                    string.Join("|", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage))));
             }
             catch (Exception exception)
             {
                 // Log the exception
                 _logger.LogError("UsersPost Exception: " + exception.Message);
                 // Return 500 Internal Server Error with an error command response with message
-                return StatusCode(StatusCodes.Status500InternalServerError, new CommandResponse(false, "An exception occured during UsersPost."));
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new CommandResponse(false, "An exception occured during UsersPost."));
             }
         }
 
@@ -131,18 +137,22 @@ namespace Users.API.Controllers
                         //return NoContent();
                         return Ok(response);
                     }
+
                     // If update failed, add error command response message to model state
                     ModelState.AddModelError("UsersPut", response.Message);
                 }
+
                 // Return 400 Bad Request with all data annotation validation error messages and the error command response message if added seperated by |
-                return BadRequest(new CommandResponse(false, string.Join("|", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage))));
+                return BadRequest(new CommandResponse(false,
+                    string.Join("|", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage))));
             }
             catch (Exception exception)
             {
                 // Log the exception
                 _logger.LogError("UsersPut Exception: " + exception.Message);
                 // Return 500 Internal Server Error with an error command response with message
-                return StatusCode(StatusCodes.Status500InternalServerError, new CommandResponse(false, "An exception occured during UsersPut."));
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new CommandResponse(false, "An exception occured during UsersPut."));
             }
         }
 
@@ -161,17 +171,20 @@ namespace Users.API.Controllers
                     //return NoContent();
                     return Ok(response);
                 }
+
                 // If delete failed, add error command response message to model state
                 ModelState.AddModelError("UsersDelete", response.Message);
                 // Return 400 Bad Request with the error command response message
-                return BadRequest(new CommandResponse(false, string.Join("|", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage))));
+                return BadRequest(new CommandResponse(false,
+                    string.Join("|", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage))));
             }
             catch (Exception exception)
             {
                 // Log the exception
                 _logger.LogError("UsersDelete Exception: " + exception.Message);
                 // Return 500 Internal Server Error with an error command response with message
-                return StatusCode(StatusCodes.Status500InternalServerError, new CommandResponse(false, "An exception occured during UsersDelete."));
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new CommandResponse(false, "An exception occured during UsersDelete."));
             }
         }
 
@@ -197,33 +210,5 @@ namespace Users.API.Controllers
             return NoContent();
         }
 
-
-
-        /// <summary>
-        /// Retrieves a list of user location data, including countries and cities, by calling external APIs.
-        /// The GET request can be sent to the route api/Users/GetUserLocations.
-        /// </summary>
-        /// <remarks>
-        /// This action sends a <see cref="UserLocationQueryRequest"/> to the mediator, which fetches location data
-        /// from the specified Countries and Cities API endpoints. The response is returned as an HTTP 200 OK result
-        /// containing the list of locations.
-        /// </remarks>
-        /// <returns>
-        /// An <see cref="IActionResult"/> containing the list of user locations if successful.
-        /// </returns>
-        [HttpGet("[action]")]
-        [Authorize] // Only authenticated users can execute this action.
-        public async Task<IActionResult> GetUserLocations()
-        {
-            var list = await _mediator.Send(new UserLocationQueryRequest
-            {
-                // Gateway Countries API URL
-                CountriesApiUrl = "https://localhost:7237/api/countries",
-
-                // Gateway Cities API URL
-                CitiesApiUrl = "https://localhost:7237/api/cities"
-            });
-            return Ok(list);
-        }
     }
 }
