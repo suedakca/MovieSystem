@@ -26,8 +26,6 @@ namespace Users.APP.Features.Users
         public List<int> RoleIds { get; set; } = new List<int>();
     }
 
-
-
     // response properties are created according to the data to be presented in API responses or UIs
     public class UserQueryResponse : Response 
     {

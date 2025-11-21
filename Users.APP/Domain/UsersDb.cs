@@ -13,14 +13,11 @@ namespace Users.APP.Domain
         /// Each <see cref="Group"/> entity corresponds to a record in the Groups table.
         /// </summary>
         public DbSet<Group> Groups { get; set; }
-
-
-
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
 
-
+        public DbSet<UserMovie> UserMovies { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UsersDb"/> class using the specified options.
@@ -31,8 +28,6 @@ namespace Users.APP.Domain
         public UsersDb(DbContextOptions options) : base(options)
         {
         }
-
-
 
         // Overriding OnModelCreating method is optional.
         /// <summary>
@@ -63,8 +58,6 @@ namespace Users.APP.Domain
             // Composite index on FirstName and LastName for optimizing searches involving both fields.
             modelBuilder.Entity<User>().HasIndex(userEntity => new { userEntity.FirstName, userEntity.LastName });
 
-
-
             // Relationship configurations:
             // Configuration should start with the entities that have the foreign keys.
             modelBuilder.Entity<UserRole>()
@@ -87,6 +80,14 @@ namespace Users.APP.Domain
                 .HasForeignKey(userEntity => userEntity.GroupId) // the foreign key property in the User entity that
                                                                  // references the primary key of the related Group entity
                 .OnDelete(DeleteBehavior.NoAction); // prevents deletion of a Group entity if there are related User entities
+            
+            modelBuilder.Entity<UserMovie>()
+                .HasKey(userMovie => new { userMovie.UserId, userMovie.MovieId });
+
+            modelBuilder.Entity<UserMovie>()
+                .HasOne(userMovie => userMovie.User)
+                .WithMany()
+                .HasForeignKey(userMovie => userMovie.UserId);
         }
     }
 }
