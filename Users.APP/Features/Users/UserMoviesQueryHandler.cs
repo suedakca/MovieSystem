@@ -26,14 +26,16 @@ public class UserMoviesQueryHandler : Service<UserMovie>, IRequestHandler<UserMo
         foreach (var userMovie in userMovies)
         {
             // Movie API'den movie çek
-            var movie = await _http.GetFromJson<UserMoviesResponse>(
+            var movies = await _http.GetFromJson<UserMoviesResponse>(
                 $"{request.MoviesApiUrl}/{userMovie.MovieId}", cancellationToken);
+
+            var movie = movies.FirstOrDefault();
 
             result.Add(new UserMoviesResponse
             {
                 Id = userMovie.UserId,
                 MovieId = userMovie.MovieId,
-                MovieName = userMovie.MovieName,
+                MovieName = movie?.MovieName ?? userMovie.MovieName,
                 Rating = userMovie.Rating,
                 IsFavourite = userMovie.IsFavourite
             });
