@@ -9,7 +9,6 @@ namespace Movies.APP.Features.Movies
 {
     public class MovieUpdateRequest : Request, IRequest<CommandResponse>
     {
-        public int MovieId { get; set; }
         [Required, StringLength(200, MinimumLength = 1)]
         public string Name { get; set; }
         public DateTime? ReleaseDate { get; set; }
@@ -40,8 +39,6 @@ namespace Movies.APP.Features.Movies
                 return Error("Movie not found!");
 
             Delete(entity.MovieGenres);
-            
-            entity.MovieId = request.MovieId;
             entity.Name = request.Name;
             entity.ReleaseDate = request.ReleaseDate;
             entity.TotaRevenue = request.TotaRevenue;

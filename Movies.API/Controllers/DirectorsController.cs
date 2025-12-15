@@ -3,10 +3,8 @@ using CORE.APP.Models;
 using Movies.APP.Features.Directors;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 namespace Movies.API.Controllers
 {
     [Route("api/[controller]")]

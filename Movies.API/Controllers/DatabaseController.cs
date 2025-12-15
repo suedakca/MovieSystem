@@ -98,7 +98,7 @@ namespace Movies.API.Controllers
                 Guid = Guid.NewGuid().ToString(),
                 Name = "Jurassic Park",
                 ReleaseDate = new DateTime(1993, 6, 11),
-                TotaRevenue = 1040000000m, // yaklaşık, istersen değiştir/sil
+                TotaRevenue = 1040000000m, 
                 DirectorId = dirSpielberg.Id,
                 GenreIds = new List<int> { genreAction.Id }
             };

@@ -12,14 +12,14 @@ namespace Movies.APP.Features.Directors
 
     public class DirectorDeleteHandler : Service<Director>, IRequestHandler<DirectorDeleteRequest, CommandResponse>
     {
-        public DirectorDeleteHandler(DbContext db) : base(db)
-        {
-        }
-
         protected override IQueryable<Director> Query(bool isNoTracking = true)
         {
             return base.Query(isNoTracking).Include(d => d.Movies);
         }
+        public DirectorDeleteHandler(DbContext db) : base(db)
+        {
+        }
+        
 
         public async Task<CommandResponse> Handle(DirectorDeleteRequest request, CancellationToken cancellationToken)
         {

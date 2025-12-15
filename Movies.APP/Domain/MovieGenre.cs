@@ -4,7 +4,6 @@ namespace Movies.APP.Domain
 {
     public class MovieGenre : Entity
     {
-        public int MovieGenreId { get; set; }
         public Movie Movie { get; set; }
         public Genre Genre { get; set; }
         public int MovieId { get; set; }
