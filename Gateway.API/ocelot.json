@@ -7,7 +7,7 @@
         { "Host": "localhost", "Port": 5021 }
       ],
       "UpstreamPathTemplate": "/api/auth/register",
-      "UpstreamHttpMethod": [ "POST" ]
+      "UpstreamHttpMethod": [ "POST", "OPTIONS" ]
     },
     {
       "DownstreamPathTemplate": "/api/Token",
@@ -16,7 +16,7 @@
         { "Host": "localhost", "Port": 5021 }
       ],
       "UpstreamPathTemplate": "/api/Token",
-      "UpstreamHttpMethod": [ "POST" ]
+      "UpstreamHttpMethod": [ "POST", "OPTIONS" ]
     },
     {
       "DownstreamPathTemplate": "/api/RefreshToken",
