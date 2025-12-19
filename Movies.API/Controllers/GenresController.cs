@@ -52,7 +52,7 @@ namespace Movies.API.Controllers
             }
         }
 
-        // GET: api/Genres/5
+        // GET: api/Genres/5||
         [HttpGet("{id}")]
         [AllowAnonymous]
         public async Task<IActionResult> Get(int id)

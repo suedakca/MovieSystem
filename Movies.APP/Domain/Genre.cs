@@ -7,7 +7,8 @@ namespace Movies.APP.Domain
     {
         [Required, StringLength(30)]
         public string Name { get; set; }
+        public bool IsChild { get; set; }
+
         public List<MovieGenre> MovieGenres { get; set; }
     }
 }
-

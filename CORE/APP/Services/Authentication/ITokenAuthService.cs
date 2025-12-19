@@ -6,7 +6,7 @@ namespace CORE.APP.Services.Authentication
     public interface ITokenAuthService
     {
         public TokenResponse GetTokenResponse(int userId, string userName, string[] userRoleNames, DateTime expiration, 
-            string securityKey, string issuer, string audience, string refreshToken); // public may not be written
+            string securityKey, string issuer, string audience, string refreshToken, string groupTitle); // public may not be written
         
         public string GetRefreshToken();
 

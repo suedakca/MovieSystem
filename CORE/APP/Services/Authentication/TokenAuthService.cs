@@ -8,64 +8,122 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace CORE.APP.Services.Authentication;
 
-public class TokenAuthService: AuthServiceBase, ITokenAuthService
+public class TokenAuthService : AuthServiceBase, ITokenAuthService
 {
-    public TokenResponse GetTokenResponse(int userId, string userName, string[] userRoleNames, DateTime expiration, 
-            string securityKey, string issuer, string audience, string refreshToken)
+    public TokenResponse GetTokenResponse(
+        int userId,
+        string userName,
+        string[] userRoleNames,
+        DateTime expiration,
+        string securityKey,
+        string issuer,
+        string audience,
+        string refreshToken,
+        string groupTitle //(Child / Adult)
+    )
+    {
+        var claims = GetClaims(userId, userName, userRoleNames, groupTitle);
+
+        var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityKey));
+        var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
+
+        var jwtSecurityToken = new JwtSecurityToken(
+            issuer,
+            audience,
+            claims,
+            DateTime.Now,
+            expiration,
+            signingCredentials
+        );
+
+        var jwt = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+
+        return new TokenResponse
         {
-            // Generate claims.
-            var claims = GetClaims(userId, userName, userRoleNames);
+            Token = $"{JwtBearerDefaults.AuthenticationScheme} {jwt}",
+            RefreshToken = refreshToken
+        };
+    }
+    
+    public TokenResponse GetTokenResponse(
+        int userId,
+        string userName,
+        string[] userRoleNames,
+        DateTime expiration,
+        string securityKey,
+        string issuer,
+        string audience,
+        string refreshToken
+    )
+    {
 
-            // Create signing credentials using the provided security key.
-            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityKey));
-            var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
-
-            // Build the JWT with claims, issuer, audience, and expiration.
-            var jwtSecurityToken = new JwtSecurityToken(issuer, audience, claims, DateTime.Now, expiration, signingCredentials);
-            var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
-
-            // Serialize the JWT to a string.
-            var jwt = jwtSecurityTokenHandler.WriteToken(jwtSecurityToken);
-
-            // Return the token response with the serialized JWT value and the refresh token parameter value.
-            return new TokenResponse()
-            {
-                Token = $"{JwtBearerDefaults.AuthenticationScheme} {jwt}", // JwtBearerDefaults.AuthenticationScheme: "Bearer"
-                RefreshToken = refreshToken
-            };
-        }
-
-        public string GetRefreshToken()
+        return GetTokenResponse(
+            userId,
+            userName,
+            userRoleNames,
+            expiration,
+            securityKey,
+            issuer,
+            audience,
+            refreshToken,
+            string.Empty
+        );
+    }
+    
+    protected IEnumerable<Claim> GetClaims(
+        int userId,
+        string userName,
+        string[] roleNames,
+        string groupTitle
+    )
+    {
+        var claims = new List<Claim>
         {
-            // Generate a cryptographically secure random 32-byte refresh token.
-            var bytes = new byte[32];
-            using (var randomNumberGenerator = RandomNumberGenerator.Create())
-            {
-                randomNumberGenerator.GetBytes(bytes);
-            }
-            return Convert.ToBase64String(bytes);
-        }
-        
-        public IEnumerable<Claim> GetClaims(string token, string securityKey)
+            new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
+            new Claim(ClaimTypes.Name, userName)
+        };
+
+        // ROLE CLAIMS
+        foreach (var role in roleNames)
+            claims.Add(new Claim(ClaimTypes.Role, role));
+
+        // GROUP CLAIM (Child / Adult)
+        if (!string.IsNullOrWhiteSpace(groupTitle))
+            claims.Add(new Claim("group", groupTitle));
+
+        return claims;
+    }
+    
+    public string GetRefreshToken()
+    {
+        var bytes = new byte[32];
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(bytes);
+        return Convert.ToBase64String(bytes);
+    }
+    
+    public IEnumerable<Claim> GetClaims(string token, string securityKey)
+    {
+        token = token.StartsWith(JwtBearerDefaults.AuthenticationScheme)
+            ? token[(JwtBearerDefaults.AuthenticationScheme.Length + 1)..]
+            : token;
+
+        var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityKey));
+
+        var parameters = new TokenValidationParameters
         {
-           
-            token = token.StartsWith(JwtBearerDefaults.AuthenticationScheme) ? 
-                token.Remove(0, JwtBearerDefaults.AuthenticationScheme.Length + 1) : token;
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = false,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = signingKey
+        };
 
-            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityKey));
-            var tokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = false,
-                ValidateAudience = false,
-                ValidateLifetime = false,
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = signingKey
-            };
+        var handler = new JwtSecurityTokenHandler();
+        handler.ValidateToken(token, parameters, out var securityToken);
 
-            // Validate the JWT and extract claims.
-            var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
-            SecurityToken securityToken;
-            var principal = jwtSecurityTokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
-            return securityToken is null ? null : principal.Claims;
-        }
+        return securityToken is null
+            ? Enumerable.Empty<Claim>()
+            : ((JwtSecurityToken)securityToken).Claims;
+    }
 }
