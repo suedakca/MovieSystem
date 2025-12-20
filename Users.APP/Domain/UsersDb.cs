@@ -92,9 +92,9 @@ namespace Users.APP.Domain
 
             modelBuilder.Entity<Role>().HasData(
                 new Role { Id = 1, Name = "Admin" },
-                new Role { Id = 2, Name = "Customer" } 
+                new Role { Id = 2, Name = "User" }
             );
-            
+
         }
     }
 }

@@ -84,7 +84,7 @@ namespace Users.APP.Migrations
                         new
                         {
                             Id = 2,
-                            Name = "Customer"
+                            Name = "User"
                         });
                 });
 

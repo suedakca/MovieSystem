@@ -24,7 +24,6 @@ namespace Movies.API.Controllers
 
         // GET: api/Movies
         [HttpGet]
-        [AllowAnonymous]
         public async Task<IActionResult> Get()
         {
             try
@@ -49,7 +48,6 @@ namespace Movies.API.Controllers
 
         // GET: api/Movies/5
         [HttpGet("{id:int}")]
-        [AllowAnonymous]
         public async Task<IActionResult> Get(int id)
         {
             try
