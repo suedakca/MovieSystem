@@ -70,7 +70,6 @@ namespace Movies.API.Controllers
             };
 
             _db.Directors.AddRange(dirNolan, dirSpielberg, dirVilleneuve, dirMiyazaki);
-            _db.Directors.AddRange(dirNolan, dirSpielberg, dirVilleneuve, dirMiyazaki);
             _db.SaveChanges(); 
             
             var inception = new APP.Domain.Movie()
@@ -122,8 +121,6 @@ namespace Movies.API.Controllers
                 DirectorId = dirMiyazaki.Id,
                 GenreIds = new List<int> { genreAnimation.Id }
             };
-
-            _db.Movies.AddRange(inception, interstellar, jurassicPark, dune, spiritedAway);
 
             _db.Movies.AddRange(inception, interstellar, jurassicPark, dune, spiritedAway);
 
