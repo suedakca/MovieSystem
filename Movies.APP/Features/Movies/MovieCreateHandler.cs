@@ -7,25 +7,20 @@ using Movies.APP.Domain;
 
 namespace Movies.APP.Features.Movies
 {
-    public class MovieCreateRequest : Request, IRequest<CommandResponse>
+    public class MovieCreateRequest : IRequest<CommandResponse>
     {
-        [Required, StringLength(100, MinimumLength = 1)] 
+        [Required, StringLength(100, MinimumLength = 1)]
         public string Name { get; set; }
-        
-        [Required, StringLength(100)]
-        public Director Director { get; set; }
-        
+
         public DateTime? ReleaseDate { get; set; }
 
-        [Range(0, double.MaxValue)]
         public decimal? TotaRevenue { get; set; }
 
         [Required]
-        public int DirectorId { get; set; } 
-        
+        public int DirectorId { get; set; }
+
         [Required]
         public List<int> GenreIds { get; set; }
-        
     }
 
     public class MovieCreateHandler : ServiceBase, IRequestHandler<MovieCreateRequest, CommandResponse>

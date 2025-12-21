@@ -7,7 +7,7 @@ using Movies.APP.Domain;
 
 namespace Movies.APP.Features.Genres
 {
-    public class GenreCreateRequest : Request, IRequest<CommandResponse>
+    public class GenreCreateRequest : IRequest<CommandResponse>
     {
         [Required, StringLength(100)]
         public string Name { get; set; }

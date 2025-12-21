@@ -8,7 +8,7 @@ using Movies.APP.Domain;
 namespace Movies.APP.Features.Directors
 {
     // request properties are created according to the data that will be retrieved from APIs or UIs
-    public class DirectorCreateRequest : Request, IRequest<CommandResponse>
+    public class DirectorCreateRequest : IRequest<CommandResponse>
     {
         // copy all the non navigation properties from Director entity
         [Required, StringLength(50)]
