@@ -72,7 +72,7 @@ builder.Services.AddCors(options =>
         .AllowAnyHeader()
         .AllowAnyMethod());
 });
-
+Console.WriteLine("DB PATH = " + Path.GetFullPath(builder.Configuration.GetConnectionString("MovieDB")!));
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

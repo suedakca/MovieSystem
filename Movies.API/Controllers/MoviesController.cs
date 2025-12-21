@@ -30,7 +30,6 @@ namespace Movies.API.Controllers
             {
                 // Handler artık List<MovieQueryResponse> döndürüyor
                 var list = await _mediator.Send(new MovieQueryRequest());
-
                 if (list.Any())
                     return Ok(list);
 
