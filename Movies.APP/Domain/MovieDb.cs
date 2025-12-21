@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Movies.APP.Domain
 {
@@ -16,6 +18,21 @@ namespace Movies.APP.Domain
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            var dateOnlyConverter = new ValueConverter<DateOnly?, DateTime?>(
+                dateOnly => dateOnly.HasValue ? dateOnly.Value.ToDateTime(TimeOnly.MinValue) : null,
+                dateTime => dateTime.HasValue ? DateOnly.FromDateTime(dateTime.Value) : null);
+
+            var dateOnlyComparer = new ValueComparer<DateOnly?>(
+                (d1, d2) => d1.GetValueOrDefault() == d2.GetValueOrDefault() && d1.HasValue == d2.HasValue,
+                d => d.HasValue ? d.Value.GetHashCode() : 0,
+                d => d);
+
+            modelBuilder.Entity<Movie>().HasIndex(movieEntity => movieEntity.Name).IsUnique();
+            modelBuilder.Entity<Movie>()
+                .Property(movieEntity => movieEntity.ReleaseDate)
+                .HasConversion(dateOnlyConverter)
+                .Metadata.SetValueComparer(dateOnlyComparer);
+            
             modelBuilder.Entity<Movie>().HasIndex(movieEntity => movieEntity.Name).IsUnique();
             modelBuilder.Entity<Genre>().HasIndex(genreEntity => genreEntity.Name).IsUnique();
             modelBuilder.Entity<Director>()
