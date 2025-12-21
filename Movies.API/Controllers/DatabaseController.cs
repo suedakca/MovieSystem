@@ -76,7 +76,7 @@ namespace Movies.API.Controllers
             {
                 Guid = Guid.NewGuid().ToString(),
                 Name = "Inception",
-                ReleaseDate = new DateTime(2010, 7, 16),
+                ReleaseDate = new DateOnly(2010, 7, 16),
                 TotaRevenue = 829895144m, 
                 DirectorId = dirNolan.Id,
                 GenreIds = new List<int> { genreSciFi.Id }
@@ -86,7 +86,7 @@ namespace Movies.API.Controllers
             {
                 Guid = Guid.NewGuid().ToString(),
                 Name = "Interstellar",
-                ReleaseDate = new DateTime(2014, 11, 7),
+                ReleaseDate = new DateOnly(2014, 11, 7),
                 TotaRevenue = 677471339m,
                 DirectorId = dirNolan.Id,
                 GenreIds = new List<int> { genreSciFi.Id }
@@ -96,7 +96,7 @@ namespace Movies.API.Controllers
             {
                 Guid = Guid.NewGuid().ToString(),
                 Name = "Jurassic Park",
-                ReleaseDate = new DateTime(1993, 6, 11),
+                ReleaseDate = new DateOnly(1993, 6, 11),
                 TotaRevenue = 1040000000m, 
                 DirectorId = dirSpielberg.Id,
                 GenreIds = new List<int> { genreAction.Id }
@@ -106,7 +106,7 @@ namespace Movies.API.Controllers
             {
                 Guid = Guid.NewGuid().ToString(),
                 Name = "Dune",
-                ReleaseDate = new DateTime(2021, 10, 22),
+                ReleaseDate = new DateOnly(2021, 10, 22),
                 TotaRevenue = 406000000m,
                 DirectorId = dirVilleneuve.Id,
                 GenreIds = new List<int> { genreSciFi.Id }
@@ -116,7 +116,7 @@ namespace Movies.API.Controllers
             {
                 Guid = Guid.NewGuid().ToString(),
                 Name = "Spirited Away",
-                ReleaseDate = new DateTime(2001, 7, 20),
+                ReleaseDate = new DateOnly(2001, 7, 20),
                 TotaRevenue = 395800000m,
                 DirectorId = dirMiyazaki.Id,
                 GenreIds = new List<int> { genreAnimation.Id }

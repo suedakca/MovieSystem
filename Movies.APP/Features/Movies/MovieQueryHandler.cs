@@ -9,8 +9,8 @@ namespace Movies.APP.Features.Movies
     public class MovieQueryRequest : Request, IRequest<List<MovieQueryResponse>>
     {
         public string Name { get; set; }
-        public DateTime? ReleaseDateStart { get; set; }
-        public DateTime? ReleaseDateEnd { get; set; }
+        public DateOnly? ReleaseDateStart { get; set; }
+        public DateOnly? ReleaseDateEnd { get; set; }
         public decimal? TotalRevenueStart { get; set; }
         public decimal? TotalRevenueEnd { get; set; }
         public int? DirectorId { get; set; }
@@ -20,7 +20,7 @@ namespace Movies.APP.Features.Movies
     public class MovieQueryResponse : Response
     {
         public string Name { get; set; }
-        public DateTime? ReleaseDate { get; set; }
+        public DateOnly? ReleaseDate { get; set; }
         public decimal? TotaRevenue { get; set; }
         public int? DirectorId { get; set; }
         public List<int> GenreIds { get; set; }

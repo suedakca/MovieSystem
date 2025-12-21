@@ -61,7 +61,7 @@ namespace Movies.APP.Domain
                     Id = 1,
                     Name = "Inception",
                     DirectorId = 1,
-                    ReleaseDate = new DateTime(2010, 7, 16),
+                    ReleaseDate = new DateOnly(2010, 7, 16),
                     TotaRevenue = 829895144
                 },
                 new Movie
@@ -69,7 +69,7 @@ namespace Movies.APP.Domain
                     Id = 2,
                     Name = "Pulp Fiction",
                     DirectorId = 2,
-                    ReleaseDate = new DateTime(1994, 10, 14),
+                    ReleaseDate = new DateOnly(1994, 10, 14),
                     TotaRevenue = 213928762
                 },
                 new Movie
@@ -77,7 +77,7 @@ namespace Movies.APP.Domain
                     Id = 3,
                     Name = "Barbie",
                     DirectorId = 3,
-                    ReleaseDate = new DateTime(2023, 7, 21),
+                    ReleaseDate = new DateOnly(2023, 7, 21),
                     TotaRevenue = 1440000000
                 }
             );

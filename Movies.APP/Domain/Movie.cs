@@ -8,7 +8,7 @@ namespace Movies.APP.Domain
     {
         [Required, StringLength(30)]
         public string Name { get; set; }
-        public DateTime? ReleaseDate { get; set; }
+        public DateOnly? ReleaseDate { get; set; }
         public decimal? TotaRevenue { get; set; }
         public int? DirectorId { get; set; }
         public List<MovieGenre> MovieGenres { get; set; }

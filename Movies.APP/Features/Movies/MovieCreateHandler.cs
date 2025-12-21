@@ -12,7 +12,7 @@ namespace Movies.APP.Features.Movies
         [Required, StringLength(100, MinimumLength = 1)]
         public string Name { get; set; }
 
-        public DateTime? ReleaseDate { get; set; }
+        public DateOnly? ReleaseDate { get; set; }
 
         public decimal? TotaRevenue { get; set; }
 
