@@ -83,11 +83,11 @@ public class TokenAuthService : AuthServiceBase, ITokenAuthService
             new Claim(ClaimTypes.Name, userName)
         };
 
-        // ROLE CLAIMS
+        // Role Claims
         foreach (var role in roleNames)
             claims.Add(new Claim(ClaimTypes.Role, role));
 
-        // GROUP CLAIM (Child / Adult)
+        // Group Claim (Child / Adult)
         if (!string.IsNullOrWhiteSpace(groupTitle))
             claims.Add(new Claim("group", groupTitle));
 

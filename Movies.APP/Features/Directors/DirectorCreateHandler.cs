@@ -7,10 +7,8 @@ using Movies.APP.Domain;
 
 namespace Movies.APP.Features.Directors
 {
-    // request properties are created according to the data that will be retrieved from APIs or UIs
     public class DirectorCreateRequest : IRequest<CommandResponse>
     {
-        // copy all the non navigation properties from Director entity
         [Required, StringLength(50)]
         public string FirstName { get; set; }
 
@@ -28,7 +26,6 @@ namespace Movies.APP.Features.Directors
 
         public async Task<CommandResponse> Handle(DirectorCreateRequest request, CancellationToken cancellationToken)
         {
-            // d: Director entity delegate. Check if a director with the same first name and last name exists.
             if (await Query().AnyAsync(d =>
                         d.FirstName == request.FirstName.Trim() &&
                         d.LastName == request.LastName.Trim(),

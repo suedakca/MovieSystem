@@ -10,7 +10,6 @@ public abstract class ServiceBase
         {
             get
             {
-                // Return the current culture info.
                 return _cultureInfo;
             }
             set
@@ -28,7 +27,6 @@ public abstract class ServiceBase
         
         protected ServiceBase()
         {
-            // Set the default culture to English (United States), "tr-TR" parameter can be used for Turkish
             CultureInfo = new CultureInfo("en-US");
         }
         protected CommandResponse Success(string message, int id) => new CommandResponse(true, message, id);

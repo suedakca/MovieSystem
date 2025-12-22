@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Movies.APP.Domain
 {
-
     public class MovieDB : DbContext
     {
         public DbSet<Movie> Movies { get; set; }

@@ -29,7 +29,7 @@ namespace Users.APP.Features.Auth
             if (await _db.Set<User>().AnyAsync(u => u.UserName == request.UserName, cancellationToken))
                 return new RegisterResponse(false, "UserName already exists.");
 
-            // YAŞ HESABI
+            // Yas Hesabı
             var age = CalculateAge(request.BirthDate);
             var groupTitle = age < 18 ? "Child" : "Adult";
 
@@ -77,7 +77,7 @@ namespace Users.APP.Features.Auth
                 _configuration["Issuer"],
                 _configuration["Audience"],
                 refreshToken,
-                group.Title // 👈 Child / Adult JWT’ye girdi
+                group.Title 
             );
 
             return new RegisterResponse(true, "Registered")

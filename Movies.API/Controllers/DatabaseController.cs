@@ -124,7 +124,6 @@ namespace Movies.API.Controllers
 
             _db.Movies.AddRange(inception, interstellar, jurassicPark, dune, spiritedAway);
 
-            // Değişiklikleri kaydet
             _db.SaveChanges();
 
             return Ok("Movie database seed successful.");

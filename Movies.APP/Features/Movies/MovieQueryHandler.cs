@@ -24,8 +24,6 @@ namespace Movies.APP.Features.Movies
         public decimal? TotaRevenue { get; set; }
         public int? DirectorId { get; set; }
         public List<int> GenreIds { get; set; }
-
-        // formatted / custom fields
         public string ReleaseDateF { get; set; }
         public string TotaRevenueF { get; set; }
         public string Director { get; set; }
@@ -38,10 +36,6 @@ namespace Movies.APP.Features.Movies
         public MovieQueryHandler(DbContext db) : base(db)
         {
         }
-
-        /// <summary>
-        /// Base query with all required Includes
-        /// </summary>
         protected override IQueryable<Movie> Query(bool isNoTracking = true)
         {
             return base.Query(isNoTracking)
@@ -55,7 +49,7 @@ namespace Movies.APP.Features.Movies
             MovieQueryRequest request,
             CancellationToken cancellationToken)
         {
-            // 1. Adım: Temel sorguyu ve filtreleri hazırla
+            // Temel sorguyu ve filtreleri hazırla
             var entityQuery = Query();
 
             // İsim filtresi
@@ -104,12 +98,10 @@ namespace Movies.APP.Features.Movies
                     m.MovieGenres.Any(mg => request.GenreIds.Contains(mg.GenreId)));
             }
 
-            // 2. Adım: Veriyi DATABASE'den çek (Materialization)
-            // ToListAsync çağrıldığı an SQL sorgusu veritabanına gider.
+            // Veriyi DATABASE'den çek 
             var moviesFromDb = await entityQuery.ToListAsync(cancellationToken);
 
-            // 3. Adım: BELLEKTE (In-Memory) DTO Dönüşümü ve Formatlama
-            // Artık veri RAM'de olduğu için ToString() ve karmaşık C# işlemleri hata vermez.
+            // Bellekte DTO Dönüşümü ve Formatlama
             var response = moviesFromDb.Select(m => new MovieQueryResponse
             {
                 Id = m.Id,
@@ -122,7 +114,7 @@ namespace Movies.APP.Features.Movies
                 // Genre ID listesi
                 GenreIds = m.MovieGenres?.Select(mg => mg.GenreId).ToList() ?? new List<int>(),
 
-                // Tarih formatlama (Hatanın ana sebeplerinden biri buydu)
+                // Tarih formatlama 
                 ReleaseDateF = m.ReleaseDate.HasValue
                     ? m.ReleaseDate.Value.ToString("MM/dd/yyyy")
                     : string.Empty,

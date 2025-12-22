@@ -17,12 +17,7 @@ namespace Users.API.Controllers
             _logger = logger;
             _mediator = mediator;
         }
-
-        /// <summary>
-        /// Registers a new user.
-        /// </summary>
-        /// <param name="request">Register request containing user information.</param>
-        /// <returns>CommandResponse indicating success or failure.</returns>
+        
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterRequest request)
         {

@@ -9,23 +9,11 @@ namespace CORE.APP.Services.HTTP;
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IHttpClientFactory _httpClientFactory;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="HttpServiceBase"/> class with the specified HTTP context accessor and HTTP client factory.
-        /// </summary>
-        /// <param name="httpContextAccessor">Provides access to the current HTTP context.</param>
-        /// <param name="httpClientFactory">Factory for creating <see cref="HttpClient"/> instances.</param>
         protected HttpServiceBase(IHttpContextAccessor httpContextAccessor, IHttpClientFactory httpClientFactory)
         {
             _httpContextAccessor = httpContextAccessor;
             _httpClientFactory = httpClientFactory;
         }
-
-        /// <summary>
-        /// Creates and configures an <see cref="HttpClient"/> instance.
-        /// If an authorization token is present in the current HTTP context, it is added to the request headers.
-        /// </summary>
-        /// <returns>A configured <see cref="HttpClient"/> instance.</returns>
         protected virtual HttpClient CreateHttpClient()
         {
             var httpClient = _httpClientFactory.CreateClient();

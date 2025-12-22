@@ -8,9 +8,6 @@ namespace Users.API.Controllers;
 
 public class DatabaseControllers
 {
-     /// <summary>
-    /// API controller for database management operations such as seeding initial data.
-    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class DatabaseController : ControllerBase

@@ -5,15 +5,7 @@ namespace CORE.APP.Services;
 
  public abstract class Service<TEntity> : ServiceBase, IDisposable where TEntity : Entity, new()
     {
-        /// <summary>
-        /// The database context used for data access operations.
-        /// </summary>
         private readonly DbContext _db;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Service{TEntity}"/> class.
-        /// </summary>
-        /// <param name="db">The database context to be used for entity operations.</param>
         protected Service(DbContext db)
         {
             _db = db;
@@ -28,7 +20,7 @@ namespace CORE.APP.Services;
 
         protected void Create(TEntity entity, bool save = true)
         {
-            entity.Guid = Guid.NewGuid().ToString(); // generate a new guid for the entity that will be inserted
+            entity.Guid = Guid.NewGuid().ToString(); 
             _db.Set<TEntity>().Add(entity);
             if (save)
                 Save();
@@ -52,7 +44,7 @@ namespace CORE.APP.Services;
 
         protected async Task Create(TEntity entity, CancellationToken cancellationToken, bool save = true)
         {
-            entity.Guid = Guid.NewGuid().ToString(); // generate a new guid for the entity that will be inserted
+            entity.Guid = Guid.NewGuid().ToString();
             _db.Set<TEntity>().Add(entity);
             if (save)
                 await Save(cancellationToken);

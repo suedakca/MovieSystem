@@ -9,7 +9,6 @@ using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 using Users.APP.Features.Users;
 
-//Generated from Custom Microservices Template.
 namespace Users.API.Controllers
 {
     [Route("api/[controller]")]
@@ -24,10 +23,6 @@ namespace Users.API.Controllers
             _logger = logger;
             _mediator = mediator;
         }
-
-        // =====================================================
-        // ===================== ADMIN =========================
-        // =====================================================
 
         // GET: api/Users
         [HttpGet]
@@ -121,15 +116,7 @@ namespace Users.API.Controllers
             var list = await response.ToListAsync();
             return list.Any() ? Ok(list) : NoContent();
         }
-
-        // =====================================================
-        // =================== CUSTOMER ========================
-        // =====================================================
-
-        /// <summary>
-        /// Customer rates a movie (only once).
-        /// Score +10 after successful rating.
-        /// </summary>
+        
         [HttpPost("rate-movie")]
         [Authorize(Roles = "Admin,Customer")]
         public async Task<IActionResult> RateMovie(UserRateMovieRequest request)

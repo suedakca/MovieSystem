@@ -8,18 +8,16 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-//Generated from Custom Microservices Template.
 namespace Users.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")] // Only authenticated users with role Admin can execute all of the actions of this controller.
+    [Authorize(Roles = "Admin")]
     public class RolesController : ControllerBase
     {
         private readonly ILogger<RolesController> _logger;
         private readonly IMediator _mediator;
 
-        // Constructor: injects logger to log the errors to Kestrel Console or Output Window and mediator
         public RolesController(ILogger<RolesController> logger, IMediator mediator)
         {
             _logger = logger;

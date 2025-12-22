@@ -5,10 +5,6 @@ using Users.APP.Domain;
 
 namespace Users.APP.Features.Auth
 {
-    /// <summary>
-    /// Register request for creating a new User.
-    /// GroupId will be assigned automatically based on BirthDate (child/adult).
-    /// </summary>
     public class RegisterRequest : IRequest<RegisterResponse>
     {
         [Required, StringLength(30)]
@@ -16,13 +12,10 @@ namespace Users.APP.Features.Auth
 
         [Required, StringLength(15)]
         public string Password { get; set; }
-
-        // BirthDate is required in registration (even though entity allows null),
-        // because we need it to compute child/adult group.
+        
         [Required]
         public DateOnly BirthDate { get; set; }
 
-        // Entity requires a non-null Gender (enum), so request should provide it too.
         [Required]
         public Genders Gender { get; set; }
 
