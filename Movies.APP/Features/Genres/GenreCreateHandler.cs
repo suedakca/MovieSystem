@@ -12,31 +12,28 @@ namespace Movies.APP.Features.Genres
         [Required, StringLength(100)]
         public string Name { get; set; }
     }
-    public class GenreCreateHandler : ServiceBase, IRequestHandler<GenreCreateRequest, CommandResponse>
+    public class GenreCreateHandler : Service<Genre>, IRequestHandler<GenreCreateRequest, CommandResponse>
     {
-        private readonly MovieDB _db;
-        public GenreCreateHandler(MovieDB db)
+        public GenreCreateHandler(DbContext db) : base(db)
         {
-            _db = db;
         }
         
         public async Task<CommandResponse> Handle(GenreCreateRequest request, CancellationToken cancellationToken)
         {
-            if (await _db.Genres.AnyAsync(
-                    genreEntity => genreEntity.Name == request.Name.Trim(),
+            if (await Query().AnyAsync(g =>
+                g.Name == request.Name.Trim(),
                     cancellationToken))
             {
                 return Error("Genre with the same name exists!");
             }
 
-            var entity = new Genre()
+            var entity = new Genre
             {
                 Name = request.Name.Trim()
             };
 
-            _db.Genres.Add(entity);
-
-            await _db.SaveChangesAsync(cancellationToken);
+            Create(entity);
+            
             return Success("Genre created successfully.", entity.Id);
         }
     }

@@ -22,25 +22,24 @@ namespace Movies.APP.Features.Movies
         [Required]
         public List<int> GenreIds { get; set; }
     }
-
-    public class MovieCreateHandler : ServiceBase, IRequestHandler<MovieCreateRequest, CommandResponse>
+    
+    public class MovieCreateHandler : Service<Movie>, IRequestHandler<MovieCreateRequest, CommandResponse>
     {
-        private readonly MovieDB _db;
-        public  MovieCreateHandler(MovieDB db)
+        public MovieCreateHandler(DbContext db) : base(db)
         {
-            _db = db;
+            
         }
         public async Task<CommandResponse> Handle(MovieCreateRequest request, CancellationToken cancellationToken)
         {
             var name = request.Name?.Trim();
             if (string.IsNullOrWhiteSpace(name))
                 return Error("Name is required.");
-
-            if (await _db.Movies.AnyAsync(movieEntity => movieEntity.Name == name, cancellationToken)) 
+            
+            if (await Query().AnyAsync(movieEntity => movieEntity.Name == name, cancellationToken))
                 return Error("Movie already exists");
 
             // director must exist
-            var directorExists = await _db.Directors.AnyAsync(d => d.Id == request.DirectorId, cancellationToken);
+            var directorExists = await Query<Director>().AnyAsync(d => d.Id == request.DirectorId, cancellationToken);
             if (!directorExists)
                 return Error("Director not found.");
 
@@ -52,8 +51,8 @@ namespace Movies.APP.Features.Movies
 
             if (distinctGenreIds.Count == 0)
                 return Error("At least one genre must be selected.");
-
-            var existingGenreCount = await _db.Genres
+            
+            var existingGenreCount = await Query<Genre>()
                 .CountAsync(g => distinctGenreIds.Contains(g.Id), cancellationToken);
 
             if (existingGenreCount != distinctGenreIds.Count)
@@ -68,8 +67,7 @@ namespace Movies.APP.Features.Movies
                 GenreIds = distinctGenreIds
             };
             
-            _db.Movies.Add(entity);
-            await _db.SaveChangesAsync(cancellationToken);
+            Create(entity);
             return Success("Movie created successfully",  entity.Id);
         }
     }
