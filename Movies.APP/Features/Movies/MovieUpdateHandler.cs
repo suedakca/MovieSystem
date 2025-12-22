@@ -17,6 +17,7 @@ namespace Movies.APP.Features.Movies
         public decimal? TotaRevenue { get; set; }
         [Required]
         public int? DirectorId { get; set; }
+        public List<int> GenreIds { get; set; }
     }
 
     public class MovieUpdateHandler : Service<Movie>, IRequestHandler<MovieUpdateRequest, CommandResponse>
@@ -59,6 +60,7 @@ namespace Movies.APP.Features.Movies
             entity.ReleaseDate = request.ReleaseDate;
             entity.TotaRevenue = request.TotaRevenue;
             entity.DirectorId = request.DirectorId;
+            entity.GenreIds = request.GenreIds;
             Update(entity);
 
             return Success("Movie updated successfully.", entity.Id);
