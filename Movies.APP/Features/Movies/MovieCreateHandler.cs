@@ -70,7 +70,7 @@ namespace Movies.APP.Features.Movies
             
             _db.Movies.Add(entity);
             await _db.SaveChangesAsync(cancellationToken);
-            return Success("Movie created successfully",  entity.Id);
+            return Success("Movie created successfully", entity.Id);
         }
     }
 }

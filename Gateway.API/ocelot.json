@@ -56,6 +56,36 @@
       "UpstreamPathTemplate": "/api/Movies/{id}",
       "UpstreamHttpMethod": ["GET", "PUT", "DELETE", "OPTIONS"]
     },
+
+    {
+      "UpstreamPathTemplate": "/api/Directors",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ],
+      "DownstreamPathTemplate": "/api/Directors",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [ { "Host": "localhost", "Port": 5105 } ]
+    },
+    {
+      "UpstreamPathTemplate": "/api/Directors/{id}",
+      "UpstreamHttpMethod": [ "GET", "DELETE" ],
+      "DownstreamPathTemplate": "/api/Directors/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [ { "Host": "localhost", "Port": 5105 } ]
+    },
+
+    {
+      "UpstreamPathTemplate": "/api/Genres",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ],
+      "DownstreamPathTemplate": "/api/Genres",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [ { "Host": "localhost", "Port": 5105 } ]
+    },
+    {
+      "UpstreamPathTemplate": "/api/Genres/{id}",
+      "UpstreamHttpMethod": [ "GET", "DELETE" ],
+      "DownstreamPathTemplate": "/api/Genres/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [ { "Host": "localhost", "Port": 5105 } ]
+    },
     {
       "DownstreamPathTemplate": "/api/Users/rate-movie",
       "DownstreamScheme": "http",

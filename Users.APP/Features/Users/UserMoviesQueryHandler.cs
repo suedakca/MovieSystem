@@ -37,7 +37,6 @@ public class UserMoviesQueryHandler : Service<UserMovie>, IRequestHandler<UserMo
                 MovieId = userMovie.MovieId,
                 MovieName = movie?.MovieName ?? userMovie.MovieName,
                 Rating = userMovie.Rating,
-                IsFavourite = userMovie.IsFavourite
             });
         }
 
