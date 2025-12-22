@@ -26,9 +26,17 @@ namespace Movies.API.Controllers
         [Authorize(Policy = "AdminOrCustomer")]
         public async Task<IActionResult> Get()
         {
+            var groupTitle = User.Claims
+                .FirstOrDefault(c => c.Type == "groupTitle")
+                ?.Value;
+            var query = new MovieQueryRequest
+            {
+                GroupTitle = groupTitle
+            };
+            Console.WriteLine("GROUP TITLE: " + groupTitle);
             try
             {
-                var list = await _mediator.Send(new MovieQueryRequest());
+                var list = await _mediator.Send(query);
                 if (list.Any())
                     return Ok(list);
 
@@ -51,7 +59,12 @@ namespace Movies.API.Controllers
         {
             try
             {
-                var list = await _mediator.Send(new MovieQueryRequest());
+                var groupTitle = User.FindFirst("groupTitle")?.Value;
+                var query = new MovieQueryRequest
+                {
+                    GroupTitle = groupTitle
+                };
+                var list = await _mediator.Send(query);
 
                 // Artık SingleOrDefaultAsync YOK
                 var item = list.SingleOrDefault(r => r.Id == id);

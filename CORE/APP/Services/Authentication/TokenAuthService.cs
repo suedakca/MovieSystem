@@ -45,31 +45,6 @@ public class TokenAuthService : AuthServiceBase, ITokenAuthService
         };
     }
     
-    public TokenResponse GetTokenResponse(
-        int userId,
-        string userName,
-        string[] userRoleNames,
-        DateTime expiration,
-        string securityKey,
-        string issuer,
-        string audience,
-        string refreshToken
-    )
-    {
-
-        return GetTokenResponse(
-            userId,
-            userName,
-            userRoleNames,
-            expiration,
-            securityKey,
-            issuer,
-            audience,
-            refreshToken,
-            string.Empty
-        );
-    }
-    
     protected IEnumerable<Claim> GetClaims(
         int userId,
         string userName,
@@ -77,19 +52,17 @@ public class TokenAuthService : AuthServiceBase, ITokenAuthService
         string groupTitle
     )
     {
+        Console.WriteLine("GROUP TITLE: " + groupTitle);
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-            new Claim(ClaimTypes.Name, userName)
+            new Claim(ClaimTypes.Name, userName),
+            new Claim("groupTitle", groupTitle)
         };
 
         // ROLE CLAIMS
         foreach (var role in roleNames)
             claims.Add(new Claim(ClaimTypes.Role, role));
-
-        // GROUP CLAIM (Child / Adult)
-        if (!string.IsNullOrWhiteSpace(groupTitle))
-            claims.Add(new Claim("group", groupTitle));
 
         return claims;
     }

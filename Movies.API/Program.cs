@@ -17,6 +17,7 @@ builder.Configuration["SecurityKey"] = "users_microservices_security_key_2025=";
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(config =>
     {
+        config.MapInboundClaims = false; 
         config.TokenValidationParameters = new TokenValidationParameters
         {
             IssuerSigningKey = new SymmetricSecurityKey(
@@ -28,6 +29,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidateIssuerSigningKey = true,
             ValidateLifetime = true,
+            NameClaimType = ClaimTypes.Name,
             RoleClaimType = ClaimTypes.Role
 
         };

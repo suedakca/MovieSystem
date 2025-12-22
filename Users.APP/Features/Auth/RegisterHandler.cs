@@ -77,7 +77,7 @@ namespace Users.APP.Features.Auth
                 _configuration["Issuer"],
                 _configuration["Audience"],
                 refreshToken,
-                group.Title
+                groupTitle
             );
 
             return new RegisterResponse(true, "Registered")

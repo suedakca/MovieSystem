@@ -6,13 +6,14 @@ using Movies.APP.Domain;
 
 namespace Movies.APP.Features.Movies
 {
-    public class MovieQueryRequest : Request, IRequest<List<MovieQueryResponse>>
+    public class MovieQueryRequest() : Request, IRequest<List<MovieQueryResponse>>
     {
         public string Name { get; set; }
         public DateOnly? ReleaseDateStart { get; set; }
         public DateOnly? ReleaseDateEnd { get; set; }
         public decimal? TotalRevenueStart { get; set; }
         public decimal? TotalRevenueEnd { get; set; }
+        public string GroupTitle { get; set; }
     }
 
     public class MovieQueryResponse : Response
@@ -48,6 +49,14 @@ namespace Movies.APP.Features.Movies
         {
             // 1. Adım: Temel sorguyu ve filtreleri hazırla
             var entityQuery = Query();
+            
+            Console.WriteLine($"GroupTitle = '{request.GroupTitle}'");
+            if (string.Equals(request.GroupTitle, "Child", StringComparison.OrdinalIgnoreCase))
+            {
+                entityQuery = entityQuery.Where(m =>
+                    m.MovieGenres.Any(mg => mg.Genre.Name == "Drama")
+                );
+            }
 
             // İsim filtresi
             if (!string.IsNullOrWhiteSpace(request.Name))
