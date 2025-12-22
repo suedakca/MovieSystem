@@ -13,8 +13,6 @@ namespace Movies.APP.Features.Movies
         public DateOnly? ReleaseDateEnd { get; set; }
         public decimal? TotalRevenueStart { get; set; }
         public decimal? TotalRevenueEnd { get; set; }
-        public int? DirectorId { get; set; }
-        public List<int> GenreIds { get; set; } = new();
     }
 
     public class MovieQueryResponse : Response
@@ -22,10 +20,7 @@ namespace Movies.APP.Features.Movies
         public string Name { get; set; }
         public DateOnly? ReleaseDate { get; set; }
         public decimal? TotaRevenue { get; set; }
-        public int? DirectorId { get; set; }
-        public List<int> GenreIds { get; set; }
 
-        // formatted / custom fields
         public string ReleaseDateF { get; set; }
         public string TotaRevenueF { get; set; }
         public string Director { get; set; }
@@ -38,10 +33,6 @@ namespace Movies.APP.Features.Movies
         public MovieQueryHandler(DbContext db) : base(db)
         {
         }
-
-        /// <summary>
-        /// Base query with all required Includes
-        /// </summary>
         protected override IQueryable<Movie> Query(bool isNoTracking = true)
         {
             return base.Query(isNoTracking)
@@ -90,20 +81,7 @@ namespace Movies.APP.Features.Movies
                 var endRev = request.TotalRevenueEnd.Value;
                 entityQuery = entityQuery.Where(m => m.TotaRevenue <= endRev);
             }
-
-            // Yönetmen filtresi
-            if (request.DirectorId.HasValue)
-            {
-                entityQuery = entityQuery.Where(m => m.DirectorId == request.DirectorId.Value);
-            }
-
-            // Tür (Genre) filtresi
-            if (request.GenreIds is { Count: > 0 })
-            {
-                entityQuery = entityQuery.Where(m =>
-                    m.MovieGenres.Any(mg => request.GenreIds.Contains(mg.GenreId)));
-            }
-
+            
             // 2. Adım: Veriyi DATABASE'den çek (Materialization)
             // ToListAsync çağrıldığı an SQL sorgusu veritabanına gider.
             var moviesFromDb = await entityQuery.ToListAsync(cancellationToken);
@@ -117,17 +95,11 @@ namespace Movies.APP.Features.Movies
                 Name = m.Name,
                 ReleaseDate = m.ReleaseDate,
                 TotaRevenue = m.TotaRevenue,
-                DirectorId = m.DirectorId,
-
-                // Genre ID listesi
-                GenreIds = m.MovieGenres?.Select(mg => mg.GenreId).ToList() ?? new List<int>(),
-
-                // Tarih formatlama (Hatanın ana sebeplerinden biri buydu)
+                
                 ReleaseDateF = m.ReleaseDate.HasValue
                     ? m.ReleaseDate.Value.ToString("MM/dd/yyyy")
                     : string.Empty,
 
-                // Sayı formatlama
                 TotaRevenueF = m.TotaRevenue.HasValue 
                     ? m.TotaRevenue.Value.ToString("N2") 
                     : "0.00",

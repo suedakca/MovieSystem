@@ -48,3 +48,46 @@ POST {{Gateway_HostAddress}}/api/Users/rate-movie
 Authorization: Bearer {{token}}
 Content-Type: application/json
 Accept: application/json
+
+### 
+GET {{Gateway_HostAddress}}/api/Directors
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### 
+POST {{Gateway_HostAddress}}/api/Directors
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+###
+DELETE {{Gateway_HostAddress}}/api/Directors/{{id}}
+Authorization: Bearer {{token}}
+Accept: application/json
+
+###
+PUT {{Gateway_HostAddress}}/api/Directors
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### 
+GET {{Gateway_HostAddress}}/api/Genres
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### 
+POST {{Gateway_HostAddress}}/api/Genres
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+###
+DELETE {{Gateway_HostAddress}}/api/Genres/{{id}}
+Authorization: Bearer {{token}}
+Accept: application/json
+
+###
+PUT {{Gateway_HostAddress}}/api/Genres
+Authorization: Bearer {{token}}
+Accept: application/json
+

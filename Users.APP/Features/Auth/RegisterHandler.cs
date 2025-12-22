@@ -77,7 +77,7 @@ namespace Users.APP.Features.Auth
                 _configuration["Issuer"],
                 _configuration["Audience"],
                 refreshToken,
-                group.Title // 👈 Child / Adult JWT’ye girdi
+                group.Title
             );
 
             return new RegisterResponse(true, "Registered")
