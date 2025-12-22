@@ -54,7 +54,7 @@ namespace Movies.APP.Features.Movies
             if (string.Equals(request.GroupTitle, "Child", StringComparison.OrdinalIgnoreCase))
             {
                 entityQuery = entityQuery.Where(m =>
-                    m.MovieGenres.Any(mg => mg.Genre.Name == "Drama")
+                    m.MovieGenres.Any(mg => mg.Genre.Name == "Child")
                 );
             }
 
